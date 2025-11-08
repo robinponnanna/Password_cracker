@@ -32,9 +32,8 @@ input_hash = input("Enter the hash to Crack: ")
 
 # Reading the wordlist file
 
-wordlist = open('wordlist.txt', 'r')
-wordlist_pass = wordlist.read().splitlines()
-wordlist.close()
+with open('wordlist.txt', 'r') as file:
+    wordlist_pass = file.read().splitlines()
 
 # Converting Wordlist password to user specified Hash format 
 
