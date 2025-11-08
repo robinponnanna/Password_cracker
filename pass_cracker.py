@@ -64,7 +64,6 @@ thread_count = int(input("\nEnter the number of threads to use (recomended 1-40)
 print(f"Using {thread_count} threads\n")
 
 threads = []
-
 for i in range(thread_count):
     t = threading.Thread(target=create_hash, args=[input_hash,])
     threads.append(t)
