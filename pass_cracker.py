@@ -3,28 +3,40 @@ import threading
 
 # Asking the use for Hash format
 
-print("1. md5\n2. md5\n3. sha1 \n4. sha256\n5. sha512\n")
-choice = int(input("Hash format (1-5): "))
-match(choice):
-    case 1:
-        hash_format = "md5"
-        print("Hash Format choosen: md5\n")
+def select_hash():
+    print("Select Hash Format\n1. md5\n2. sha1\n3. sha224\n4. sha256\n5. sha512\n")
+    choice = int(input("Hash format (1-5): "))
+    match(choice):
+        case 1:
+            hash_format = "md5"
+            print("Hash Format choosen: md5\n")
+            return hash_format
 
-    case 2:
-        hash_format = "md5"
-        print("Hash Format choosen: md5\n")
+        case 2:
+            hash_format = "sha1"
+            print("Hash Format choosen: sha1\n")
+            return hash_format
 
-    case 3:
-        hash_format = "sha1"
-        print("Hash Format choosen: sha1\n")
+        case 3:
+            hash_format = "sha224"
+            print("Hash Format choosen: sha224\n")
+            return hash_format
 
-    case 4:
-        hash_format = "sha256"
-        print("Hash Format choosen: sha256\n")
+        case 4:
+            hash_format = "sha256"
+            print("Hash Format choosen: sha256\n")
+            return hash_format
 
-    case 5:
-        hash_format = "sha512"
-        print("Hash Format choosen: sha512\n")
+        case 5:
+            hash_format = "sha512"
+            print("Hash Format choosen: sha512\n")
+            return hash_format
+
+        case _:
+            print("Invalid Input!!!\n")
+            select_hash()
+
+hash_format = select_hash()
 
 
 # Taking input Hash from the user for checking  
@@ -42,10 +54,10 @@ found = None
 items = None
 items_found_list = []
 
-def create_hash(input_hash):
+def create_hash(input_hash,hash_format):
     
     for items in wordlist_pass:
-        hash_obj= hashlib.new(hash_format)
+        hash_obj= hashlib.new(hash_format,)
         current_word = items.encode()
         hash_obj.update(current_word)
         wordlist_pass_hash = hash_obj.hexdigest()
@@ -65,7 +77,7 @@ print(f"Using {thread_count} threads\n")
 
 threads = []
 for i in range(thread_count):
-    t = threading.Thread(target=create_hash, args=[input_hash,])
+    t = threading.Thread(target=create_hash, args=[input_hash,hash_format])
     threads.append(t)
     t.start()
 
@@ -77,11 +89,20 @@ for t in threads:
 # printing the found password
 
 if len(items_found_list)==0:
-    print("Passowrd Not Found!")
+    print("!Passowrd Not Found!")
 else:
     items = items_found_list[0]
     found = items_found_list[1]
 
 if(found == 1):
-    print(f"PASSWORD FOUND!\nPassword: {items}")
+    print(f"!PASSWORD FOUND!\nPassword: {items}")
 
+
+
+
+"""improve threading by creating a list and splitting 
+the wordlsits file based on the number of threads 
+created so that different thraeds get diffrenet 
+sets of passwords set to work with
+
+Accept a file of hashes and attempt to crack multiple hashes in one r"""
